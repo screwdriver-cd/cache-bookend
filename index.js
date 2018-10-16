@@ -13,7 +13,6 @@ class CacheBookend extends BookendInterface {
      */
     constructor(apiUrl) {
         super();
-        this.jobCache = {};
 
         const jobId = process.env.SD_JOB_ID;
         const token = process.env.SD_TOKEN;
@@ -38,12 +37,17 @@ class CacheBookend extends BookendInterface {
         return new Promise((resolve, reject) =>
             req(this.options, (err, response) => {
                 if (!err && response.statusCode === 200) {
-                    this.jobCache = hoek.reach(response.body, 'cache.event');
-                    const eventMap = this.jobCache.map(item =>
-                        `store-cli get ${item} --type=cache --scope=event`
-                    );
+                    const jobCache = hoek.reach(response.body, 'cache.event');
 
-                    return resolve(eventMap.join(' && '));
+                    if (jobCache) {
+                        const eventMap = jobCache.map(item =>
+                            `store-cli get ${item} --type=cache --scope=event`
+                        );
+
+                        return resolve(eventMap.join(' && '));
+                    }
+
+                    return resolve('');
                 }
 
                 return reject(err);
@@ -60,12 +64,17 @@ class CacheBookend extends BookendInterface {
         return new Promise((resolve, reject) =>
             req(this.options, (err, response) => {
                 if (!err && response.statusCode === 200) {
-                    this.jobCache = hoek.reach(response.body, 'cache.event');
-                    const eventMap = this.jobCache.map(item =>
-                        `store-cli set ${item} --type=cache --scope=event`
-                    );
+                    const jobCache = hoek.reach(response.body, 'cache.event');
 
-                    return resolve(eventMap.join(' && '));
+                    if (jobCache) {
+                        const eventMap = jobCache.map(item =>
+                            `store-cli set ${item} --type=cache --scope=event`
+                        );
+
+                        return resolve(eventMap.join(' && '));
+                    }
+
+                    return resolve('');
                 }
 
                 return reject(err);
