@@ -39,7 +39,7 @@ class CacheBookend extends BookendInterface {
                 if (!err && response.statusCode === 200) {
                     const jobCache = hoek.reach(response.body, 'permutations.0.cache.event');
 
-                    if (jobCache) {
+                    if (jobCache && jobCache.length > 0) {
                         const eventMap = jobCache.map(item =>
                             `store-cli get ${item} --type=cache --scope=event`
                         );
@@ -66,7 +66,7 @@ class CacheBookend extends BookendInterface {
                 if (!err && response.statusCode === 200) {
                     const jobCache = hoek.reach(response.body, 'permutations.0.cache.event');
 
-                    if (jobCache) {
+                    if (jobCache && jobCache.length > 0) {
                         const eventMap = jobCache.map(item =>
                             `store-cli set ${item} --type=cache --scope=event`
                         );
