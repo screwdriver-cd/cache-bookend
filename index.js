@@ -37,7 +37,7 @@ class CacheBookend extends BookendInterface {
         return new Promise((resolve, reject) =>
             req(this.options, (err, response) => {
                 if (!err && response.statusCode === 200) {
-                    const jobCache = hoek.reach(response.body, 'cache.event');
+                    const jobCache = hoek.reach(response.body, 'permutations.0.cache.event');
 
                     if (jobCache) {
                         const eventMap = jobCache.map(item =>
@@ -64,7 +64,7 @@ class CacheBookend extends BookendInterface {
         return new Promise((resolve, reject) =>
             req(this.options, (err, response) => {
                 if (!err && response.statusCode === 200) {
-                    const jobCache = hoek.reach(response.body, 'cache.event');
+                    const jobCache = hoek.reach(response.body, 'permutations.0.cache.event');
 
                     if (jobCache) {
                         const eventMap = jobCache.map(item =>

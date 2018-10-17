@@ -23,9 +23,13 @@ describe('index test', () => {
         reqMock = sinon.stub().yields(null, {
             statusCode: 200,
             body: {
-                cache: {
-                    event: ['foo/bar', 'bar/baz']
-                }
+                permutations: [
+                    {
+                        cache: {
+                            event: ['foo/bar', 'bar/baz']
+                        }
+                    }
+                ]
             }
         });
 
