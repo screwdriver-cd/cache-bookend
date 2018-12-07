@@ -60,8 +60,8 @@ class CacheBookend extends BookendInterface {
         const cache = hoek.reach(o.job, 'permutations.0.cache');
 
         if (cache) {
-            const eventCache = getCacheCommands(cache.event, 'event', 'set');
             const pipelineCache = getCacheCommands(cache.pipeline, 'pipeline', 'set');
+            const eventCache = getCacheCommands(cache.event, 'event', 'set');
             const jobCache = getCacheCommands(cache.job, 'job', 'set');
 
             return Promise.resolve(`${eventCache} ; ${pipelineCache} ; ${jobCache}`);
