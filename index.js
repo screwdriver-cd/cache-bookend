@@ -14,8 +14,8 @@ const { BookendInterface } = require('screwdriver-build-bookend');
 function getCacheCommands(cache, scope, action) {
     if (cache && cache.length > 0) {
         const cmds = cache.map(item =>
-          `store-cli ${action} ${item} --type=cache --scope=${scope} || true`
-    );
+            `store-cli ${action} ${item} --type=cache --scope=${scope} || true`
+        );
 
         return cmds.join(' ; ');
     }
@@ -41,7 +41,7 @@ class CacheBookend extends BookendInterface {
             const eventCache = getCacheCommands(cache.event, 'event', 'get');
             const jobCache = getCacheCommands(cache.job, 'job', 'get');
 
-            return Promise.resolve(${pipelineCache} ; `${eventCache} ; ${jobCache}`);
+            return Promise.resolve(`${pipelineCache} ; ${eventCache} ; ${jobCache}`);
         }
 
         return Promise.resolve('echo skipping cache');
@@ -64,7 +64,7 @@ class CacheBookend extends BookendInterface {
             const eventCache = getCacheCommands(cache.event, 'event', 'set');
             const jobCache = getCacheCommands(cache.job, 'job', 'set');
 
-            return Promise.resolve(`${eventCache} ; ${pipelineCache} ; ${jobCache}`);
+            return Promise.resolve(`${pipelineCache} ; ${eventCache} ; ${jobCache}`);
         }
 
         return Promise.resolve('echo skipping cache');
